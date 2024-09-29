@@ -1,0 +1,63 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+}
+
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+}
+
+#controls {
+    margin: 20px 0;
+}
+
+#controls button, #controls select {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#controls button {
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    color: white;
+}
+
+#controls button:hover {
+    background: linear-gradient(135deg, #feb47b, #ff7e5f);
+    transform: scale(1.05);
+}
+
+#controls select {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+}
+
+canvas {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+pre {
+    background-color: #f4f4f4;
+    padding: 10px;
+    overflow-x: auto;
+}

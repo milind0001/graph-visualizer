@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Code Example</title>
+    <style>
+        h1{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Code Example</h1>
+    
+    <pre>
+        <code>
+let canvas = document.getElementById('graphCanvas');
+let ctx = canvas.getContext('2d');
+
+let nodes = [];
+let edges = [];
+let nodeCounter = 1; // Start from 1
+
+canvas.addEventListener('click', addNodeOnClick);
+
+function addNodeOnClick(event) {
+    let rect = canvas.getBoundingClientRect();
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+    addNode(x, y);
+}
+
+function addNode(x, y) {
+    let node = { id: nodeCounter++, x: x, y: y };
+    nodes.push(node);
+    drawGraph();
+}
+
+function code(){
+    window.location.href = "new.html";
+}
+
+function addEdge() {
+    if (nodes.length < 2) {
+        alert("At least two nodes are required to add an edge.");
+        return;
+    }
+    let from = prompt("Enter the ID of the first node:");
+    let to = prompt("Enter the ID of the second node:");
+    let weight = prompt("Enter the weight of the edge:");
+    if (from < 1 || from > nodes.length || to < 1 || to > nodes.length || from === to) {
+        alert("Invalid node IDs.");
+        return;
+    }
+    edges.push({ from: parseInt(from) - 1, to: parseInt(to) - 1, weight: parseFloat(weight) });
+    drawGraph();
+}
+
+function drawGraph() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    edges.forEach(edge => {
+        let fromNode = nodes[edge.from];
+        let toNode = nodes[edge.to];
+        ctx.beginPath();
+        ctx.moveTo(fromNode.x, fromNode.y);
+        ctx.lineTo(toNode.x, toNode.y);
+        ctx.stroke();
+        ctx.fillStyle = 'black';
+        let midX = (fromNode.x + toNode.x) / 2;
+        let midY = (fromNode.y + toNode.y) / 2;
+        ctx.fillText(edge.weight, midX + 5, midY + 5); // Offset text position
+    });
+    nodes.forEach(node => {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, 15, 0, 2 * Math.PI);
+        ctx.fillStyle = '#007bff';
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(node.id, node.x, node.y);
+    });
+}
+
+function runAlgorithm() {
+    let algorithm = document.getElementById('algorithm').value;
+    if (algorithm === 'dijkstra') {
+        dijkstra();
+    }
+    // Add more algorithms here
+}
+
+function dijkstra() {
+    let startNode = parseInt(prompt("Enter the start node ID:"));
+    if (startNode < 1 || startNode > nodes.length) {
+        alert("Invalid start node ID.");
+        return;
+    }
+    startNode--; // Convert to 0-based index
+
+    let distances = Array(nodes.length).fill(Infinity);
+    distances[startNode] = 0;
+
+    let pq = new PriorityQueue();
+    pq.enqueue(startNode, 0);
+
+    let previous = Array(nodes.length).fill(null);
+
+    while (!pq.isEmpty()) {
+        let { element: u } = pq.dequeue();
+        edges.forEach(edge => {
+            if (edge.from === u) {
+                let v = edge.to;
+                let weight = edge.weight;
+                if (distances[u] + weight < distances[v]) {
+                    distances[v] = distances[u] + weight;
+                    previous[v] = u;
+                    pq.enqueue(v, distances[v]);
+                }
+            }
+        });
+    }
+
+    console.log("Distances:", distances);
+    console.log("Previous:", previous);
+
+    // Visualize the shortest path tree
+    drawGraph();
+    nodes.forEach((node, index) => {
+        if (previous[index] !== null) {
+            let fromNode = nodes[previous[index]];
+            let toNode = nodes[index];
+            ctx.beginPath();
+            ctx.moveTo(fromNode.x, fromNode.y);
+            ctx.lineTo(toNode.x, toNode.y);
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 1;
+        }
+    });
+}
+
+class PriorityQueue {
+    constructor() {
+        this.items = [];
+    }
+
+    enqueue(element, priority) {
+        let newNode = { element, priority };
+        let added = false;
+        for (let i = 0; i < this.items.length; i++) {
+            if (newNode.priority < this.items[i].priority) {
+                this.items.splice(i, 0, newNode);
+                added = true;
+                break;
+            }
+        }
+        if (!added) {
+            this.items.push(newNode);
+        }
+    }
+
+    dequeue() {
+        return this.items.shift();
+    }
+
+    isEmpty() {
+        return this.items.length === 0;
+    }
+}
+
+        </code>
+    </pre>
+    
+</body>
+</html>

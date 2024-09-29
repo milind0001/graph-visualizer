@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Algorithms Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Graph Algorithms Visualizer</h1>
+        <div id="controls">
+            <button onclick="addEdge()">Add Edge</button>
+            <button onclick="runAlgorithm()">Run Algorithm</button>
+            <button onclick="code()">code</button>
+            <select id="algorithm">
+                <option value="dijkstra">Dijkstra</option>
+                <!-- Add more algorithms here -->
+            </select>
+        </div>
+        <canvas id="graphCanvas" width="800" height="600"></canvas>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
